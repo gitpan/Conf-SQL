@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use DBI;
 
-our $VERSION='0.06';
+our $VERSION='0.07';
 
 sub new {
   my $class=shift;
@@ -121,6 +121,16 @@ sub get {
   $sth->finish();
 
 return $val;
+}
+
+sub del {
+  my ($self,$var)=@_;
+
+  my $user=$self->{"user"};
+  my $dbh=$self->{"dbh"};
+  my $table=$self->{"TABLE"};
+
+  $dbh->do("DELETE FROM $table WHERE uid=".$dbh->quote($user)." AND var=".$dbh->quote($var));
 }
 
 sub variables {
