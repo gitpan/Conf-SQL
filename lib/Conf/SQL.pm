@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use DBI;
 
-our $VERSION='0.07';
+our $VERSION='0.08';
 
 sub new {
   my $class=shift;
@@ -178,25 +178,26 @@ to the database.
 
 Invoked with a valid C<DSN>, C<DBUSER> and C<DBPASS> combination,
 will return a Conf::SQL object that is connected to
-the database. 
+the database.
 
 TABLE defaults to C<conf_table>.
 
 This function will try to create a C<TABLE>
-table in the given C<DSN>, if it does not exist.
+table in the given C<DSN>, if it does not exist. This will
+probably succeed for DBD drivers Pg, mysql and sqlite.
 
 =head3 Creating the table $table in your database
 
-If it cannot create a table for you, because it doesn't know
-the database you are using, you can create your own. 
-The table used has following form:
+If this module cannot create a table for you, because it doesn't know
+the database you are using, you can create your own (or send modifications
+to the author). The table used has following form:
 
   CREATE TABLE $table(uid varchar,var varchar,value varchar)
 
 The form presented here is a C<PostgreSQL> form. You will want
 at least following specifications for uid, var and value:
 
-   uid    varchar(250)
+   uid    varchar(1024)
    var    varchar(250)
    value  text, bigtext, mediumtext, varchar(1000000000), etc.
 
@@ -218,13 +219,18 @@ Reads var from config. Returns C<undef>, if var does not
 exist. Returns the value of configuration item C<var>,
 otherwise.
 
+=head2 C<del(var) --E<gt> void>
+
+Delets var from the table.
+
 =head2 C<variables() --E<gt> list of strings>
 
 Returns all variables in the configuraton backend.
 
 =head1 SEE ALSO
 
-L<Conf::String | Conf::String>, L<Conf::SQL | Conf::SQL>, L<Conf::File | Conf::File>.
+L<Conf::String|Conf::String>, L<Conf|Conf>, L<Conf::File|Conf::File>,
+L<Conf::INI|Conf::INI>.
 
 =head1 AUTHOR
 
