@@ -69,8 +69,10 @@ ok($conf->get("oesterhol") eq "HI!", "initial conf in \$string -> oesterhol=HI!"
 
 ### Cleanup
 
-my $dbh=DBI->connect($DSN,$DBUSER,$DBPASS);
+my $dbh=DBI->connect($DSN,$DBUSER,$PASS);
 my $driver=lc($dbh->{Driver}->{Name});
+
+print "driver:$driver\n";
 
 if ($driver eq "pg") {
   $dbh->do("DROP INDEX $TABLE"."_idx");

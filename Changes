@@ -1,5 +1,8 @@
 Revision history for Perl extension Conf.
 
+0.06 Creation of database did not work with mysql.
+     Changed code. Removed an error in the test script.
+
 0.03 Documentation: Conf::SQL was named Conf::SQL - the *file* backend...
 	is now Conf::SQL - the SQL backend...
 

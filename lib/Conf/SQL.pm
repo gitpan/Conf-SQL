@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use DBI;
 
-our $VERSION='0.05';
+our $VERSION='0.06';
 
 sub new {
   my $class=shift;
@@ -32,7 +32,7 @@ sub new {
 
   my $sth=$self->{"dbh"}->prepare("SELECT COUNT(var) FROM $table");
   $sth->execute();
-  if ($sth->rows() lt 0) {
+  if (not $sth->execute()) {
     $sth->finish();
 
     my $dbh=$self->{"dbh"};
@@ -43,8 +43,8 @@ sub new {
       $dbh->do("CREATE INDEX $table"."_idx ON $table(uid, var)");
     }
     elsif ($driver eq "mysql") { # mysql
-      $dbh->do("CREATE TABLE $table(uid varchar(250),var varchar(250),value mediumtext)");
-      $dbh->do("CREATE INDEX $table"."_idx ON $table(uid, var)");
+      $dbh->do("CREATE TABLE $table(uid varchar(250),var text,value mediumtext)");
+      $dbh->do("CREATE INDEX $table"."_idx ON $table(uid, var(200))");
     }
     elsif ($driver eq "sqlite") { # sqlite
       $dbh->do("CREATE TABLE $table(uid varchar(250),var varchar(1024),value text)");
@@ -147,11 +147,11 @@ return @vars;
 1;
 __END__
 
-=head1 Name
+=head1 NAME
 
-Conf::SQL, an SQL backend for Conf.
+Conf::SQL - An SQL backend for Conf
 
-=head1 Abstract
+=head1 ABSTRACT
 
 C<Conf::SQL> is an SQL  backend for Conf. It handles
 a table C<$table> with identifiers that are 
@@ -164,7 +164,7 @@ account of the user self.
 Each call C<set()> will immediately result in a commit 
 to the database.
 
-=head2 C<new(DSN =E<gt> ...,DBUSER =E<gt> ..., DBPASS =E<gt>, [TABLE =E<gt> ...])> --E<gt> Conf::SQL
+=head2 C<new(DSN =E<gt> ...,DBUSER =E<gt> ..., DBPASS =E<gt>, [TABLE =E<gt> ...]) --E<gt> Conf::SQL>
 
 Invoked with a valid C<DSN>, C<DBUSER> and C<DBPASS> combination,
 will return a Conf::SQL object that is connected to
