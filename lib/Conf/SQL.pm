@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use DBI;
 
-our $VERSION='0.04';
+our $VERSION='0.05';
 
 sub new {
   my $class=shift;
@@ -149,7 +149,7 @@ __END__
 
 =head1 Name
 
-Conf::SQL - The SQL backend for Conf.
+Conf::SQL, an SQL backend for Conf.
 
 =head1 Abstract
 
@@ -159,18 +159,12 @@ assigned values. The identifiers are specified on
 a per user basis. C<Conf::SQL> tries to get the user
 account of the user self.
 
-=head1 Note
-
-This module can be ommitted from the C<Conf> bundle.
-One can optionally neclegt it's existence by using
-C<perl Makefile.PL --no-sql>.
-
 =head1 Description
 
 Each call C<set()> will immediately result in a commit 
 to the database.
 
-=head2 C<new(DSN => ...,DBUSER => ..., DBPASS =>, [TABLE => ...])> --E<gt> Conf::SQL
+=head2 C<new(DSN =E<gt> ...,DBUSER =E<gt> ..., DBPASS =E<gt>, [TABLE =E<gt> ...])> --E<gt> Conf::SQL
 
 Invoked with a valid C<DSN>, C<DBUSER> and C<DBPASS> combination,
 will return a Conf::SQL object that is connected to
